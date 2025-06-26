@@ -13,7 +13,5 @@ __pycache__/
 .env
 .venv
 # Ignore Jupyter Notebook checkpoints
-*.pkl 
 
-model/GasRF_model.pkl
 
