@@ -12,4 +12,8 @@ __pycache__/
 # Ignore environment variables files
 .env
 .venv
-*.pkl
+# Ignore Jupyter Notebook checkpoints
+*.pkl 
+
+model/GasRF_model.pkl
+
