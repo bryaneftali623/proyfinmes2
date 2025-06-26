@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de NOX</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        function predecirNOX(event) {
+            event.preventDefault();
+            const datos = {
+                at: document.getElementById("at").value,
+                ah: document.getElementById("ah").value,
+                tit: document.getElementById("tit").value,
+                tey: document.getElementById("tey").value,
+                cdp: document.getElementById("cdp").value,
+                co: document.getElementById("co").value,
+                tat: document.getElementById("tat").value,
+            };
+            const params = new URLSearchParams(datos);
+            fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params.toString()
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("resultado").innerText = 'NOX estimado: ' + data.nox + ' ppm';
+            })
+            .catch(error => {
+                document.getElementById("resultado").innerText = 'Error en la predicción.';
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="formulario">
+    <h1>Formulario para predecir NOX</h1>
+    <form onsubmit="predecirNOX(event)">
+        <label for="at">AT: (Temperatura del aire en °C)</label>
+        <input type="text" id="at" name="at" placeholder="Ej. 25.6">
+        
+        <label for="ah">AH: (Humedad del aire en %)</label>
+        <input type="text" id="ah" name="ah" placeholder="Ej. 80.3">
+        
+        <label for="tit">TIT: (Temp. entrada de turbina en °C)</label>
+        <input type="text" id="tit" name="tit" placeholder="Ej. 1100.5">
+        
+        <label for="tey">TEY: (Presión de eyección en bar)</label>
+        <input type="text" id="tey" name="tey" placeholder="Ej. 8.2">
+        
+        <label for="cdp">CDP: (Presión compresor en bar)</label>
+        <input type="text" id="cdp" name="cdp" placeholder="Ej. 9.8">
+        
+        <label for="co">CO: (Monóxido de carbono en ppm)</label>
+        <input type="text" id="co" name="co" placeholder="Ej. 15.0">
+        
+        <label for="tat">TAT: (Temp. ambiente de salida en °C)</label>
+        <input type="text" id="tat" name="tat" placeholder="Ej. 540.7">
+
+        <input type="submit" value="Predecir NOX">
+    </form>
+    <p class="resultado" id="resultado"></p>
+</div>
+</body>
+</html>
